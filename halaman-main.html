@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memuat Game...</title>
+    
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: var(--latarblkng);
+            color: var(--putih);
+            overflow-x: hidden;
+        }
+
+        /* pengaturan header */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 15px 20px;
+            background-color: var(--birutua);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-back{
+            position: absolute;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--putih);
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.2s, transform 0.2s;
+        }
+
+        .btn-back:hover {
+            color: var(--langit);
+            transform: scale(1.1);
+        }
+
+        .judul-game {
+            margin: 0;
+            color: var(--putih);
+            font-size: 22px;
+            letter-spacing: 1px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 50%;
+        }
+
+        /* pengaturan layar game */
+        .game-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            /* memastikan pembungkus mengisi sisa layar */
+            min-height: calc(100vh - 80px);
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 75vh;
+            background-color: var(--warnakartu);
+            border: var(Btua);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--latarblkng);
+            z-index: 10;
+            border: var(--Btua);
+        }
+
+        .btn-play {
+            background-color: var(--birumuda);
+            color: var(--putih);
+            border: none;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-family: 'Orbitron', sans-serif;
+            border-radius: 8px;
+            cursor: pointer;
+            /* warna ulang */
+            box-shadow: 0 0 15px rgba(68,148,233,0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+        }
+
+        .btn-play:hover{
+            background-color: var(--langit);
+            color: var(--warnakartu);
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(137, 196, 255, 0.8);
+        }
+
+        .btn-fullscreen{
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: none;
+            color: var(--putih);
+            border: none;
+            width: 15px;
+            height: 15px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s ease;
+        }
+
+        .btn-fullscreen:hover{
+            opacity: 50%;
+            transform: scale(1.1);
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+            background-color: #000;
+        }
+
+        /* RESPONSIVE LAYAR HP */
+        @media (max-width: 768px){
+            .game-wrapper{
+                padding: 15px 10px;
+            }
+
+            .judul-game{
+                font-size: 16px;
+                max-width: 65%;
+            }
+            .game-container{
+                height: 65vh;
+            }
+            .btn-play{
+                font-size: 18px;
+                padding: 12px 30px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>    
+    <header class="top-bar">
+        <!-- tombol kembali -->
+        <a href="index.html" class="btn-back" title="kembali">
+            <i class="fa-solid fa-chevron-left"></i>
+        </a>
+        <!-- tempat menampilkan judul game -->
+        <h3 id="judul-tampil" class="judul-game">Memuat Game...</h3>
+    </header>
+
+    <!-- layar game -->
+     <main class="game-wrapper">
+        <div class="game-container" id="game-container">
+            <!-- layar penutup & tombol play -->
+            <div id="play-overlay" class="play-overlay">
+                <button id="btn-play" class="btn-play">
+                    <i class="fa-solid fa-play"></i>PLAY
+                </button>
+            </div>
+            <!-- tombol layar penuh -->
+            <button id="btn-fullscreen" class="btn-fullscreen" title="layar penuh">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+            <!-- layar iframe game -->
+            <iframe id="frame-game" src="" allowfullscreen="true" scrolling="no"></iframe>
+        </div>
+        
+     </main>
+
+    <!-- script js untuk logika -->
+    <script src="data.js"></script>
+
+    <!-- script memuat game dinamis -->
+     <script>
+        // ambil parameter id dari URL
+        const urlparams = new URLSearchParams(window.location.search);
+        const gameid = parseInt(urlparams.get('id'));
+
+        // tangkap elemen HTML yang ingin diubah
+        const framegame = document.getElementById('frame-game');
+        const judultampil = document.getElementById('judul-tampil');
+        const playoverlay = document.getElementById('play-overlay')
+        const btnplay = document.getElementById('btn-play')
+        const btnfullscreen = document.getElementById('btn-fullscreen')
+        const gamecontainer = document.getElementById('game-container')
+        // cari data game di dalam databasegame
+        const gameditemukan = databasegame.find(game => game.id === gameid);
+
+        // eksekusi jika game ditemukan
+        if (gameditemukan) {
+            // ubah teks judul dan title web
+            judultampil.innerText = gameditemukan.judul;
+            document.title = gameditemukan.judul + " - SIMPELGAME";
+
+            if (gameditemukan.status === "belum_rilis"){
+                // jika belum rilis, ubah tombol menjadi coming soon
+                btnplay.innerHTML = '<i class="fa-solid fa-clock"></i> COMING SOON';
+                btnplay.style.backgroundColor = "#555555";
+                btnplay.style.boxShadow = "none";
+                btnplay.disabled = true;
+                btnplay.style.cursor = "not-allowed";
+            } else {
+                btnplay.addEventListener('click', function(){
+                    // sembunyikan layar penutup (overlay)
+                    playoverlay.style.display ='none';
+                    // tampikan iframe
+                    framegame.style.display = 'block';
+                    // masukan link file game ke dalam iframe
+                    framegame.src = gameditemukan.file + "/index.html";
+                    // muncul tombol fullscreen
+                    btnfullscreen.style.display = 'flex';
+                });
+            }
+
+
+        } else {
+            // jika game tidak ditemukan
+            judultampil.innerText = "Game tidak ditemukan";
+            judultampil.style.color = "#ff4c4c";
+            document.title = "Error - Game tidak ditemukan";
+
+            btnplay.innerHTML = '<i class="fa-solid fa-xmark"></i> ERROR'
+            btnplay.style.backgroundColor = "#ff4c4c";
+            btnplay.style.boxShadow = "0 0 15px rgba(255,76,76,0.4)"
+            btnplay.disabled = true;
+            btnplay.style.cursor = "not-allowed";
+        }
+        // fitur tombol layar penuh
+        btnfullscreen.addEventListener('click', function(){
+            if (framegame.requestFullscreen){
+                framegame.requestFullscreen();
+            }else if (framegame.webkitRequestFullscreen){
+                framegame.webkitRequestFullscreen();
+            }else if (framegame.msRequestFullscreen){
+                framegame.msRequestFullscreen();
+            }else{
+                alert("Browser Anda tidak mendukung fitur layar penuh.");
+            }
+        });
+     </script>
+
+</body>
+</html>

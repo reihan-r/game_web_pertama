@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kategori</title>
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- header logo dan nama web -->
+    <header class="header-web">
+        <div class="logo-container">
+            <img src="aset-web/logo_sampelgame.png" alt="logo" class="logo-img">
+            <h1 class="nama-web"><span class="teks-biru">SAMPEL</span>GAME</h1>
+        </div>
+    </header>
+    <!-- navbar menu -->
+        <nav class="menu">
+            <a href="index.html">Beranda</a>
+            <a href="game.html" >Game</a>
+            <a href="kategori.html" class="active">Kategori</a>
+            <a href="profil.html" >Profil</a>
+        </nav>
+
+    <section class="main-content">
+        <h3 class="section-title">Kategori Game</h3>
+
+        <div class="scroll-atasbawah" id="daftar-kategori">
+
+        </div>
+
+    </section>
+
+
+
+    <!-- script js -->
+    <script src="data.js"></script>
+
+
+    <!-- full AI karena gak ada waktu dan hasilnya sama kayanya -->
+    <script>
+        // ambil elemen tempat kategori diletakkan
+        const wadahkategori = document.getElementById('daftar-kategori');
+
+        // ambil semua "kategori" dari data.js, lalu saring agar tidak ada yg ganda
+        const daftarkategoriunik = [...new Set(databasegame.map(game => game.kategori))];
+
+        // KAMUS IKON: Cocokkan nama kategori (huruf kecil) dengan class Font Awesome
+        // Pastikan nama kategori di data.js Anda menggunakan kata-kata di bawah ini
+        const ikonKamus = {
+            'aksi': 'fa-solid fa-helicopter',
+            'horor': 'fa-solid fa-ghost',
+            'balapan': 'fa-solid fa-flag-checkered',
+            'petualangan': 'fa-solid fa-compass',
+            'pertualangan': 'fa-solid fa-compass', // Saya buatkan cadangan jika Anda terketik 'pertualangan'
+            'bertahan hidup': 'fa-solid fa-campground',
+            'strategi': 'fa-solid fa-chess-knight',
+            'rpg': 'fa-solid fa-dragon', // RPG tetap RPG karena singkatan ini sangat umum
+            'teka-teki': 'fa-solid fa-puzzle-piece',
+            'simulasi': 'fa-solid fa-vr-cardboard',
+            'olahraga': 'fa-solid fa-futbol', // Ikon bola
+            'kartu': 'fa-solid fa-layer-group', // Ikon tumpukan (mewakili tumpukan kartu)
+            'papan': 'fa-solid fa-dice', // Ikon dadu (mewakili board game)
+            'kasual': 'fa-solid fa-mug-hot',
+            'edukasi': 'fa-solid fa-graduation-cap',
+            'tembak-tembakan': 'fa-solid fa-crosshairs', // Ikon target bidikan
+            'arkade': 'fa-solid fa-ghost' // Bisa pakai ikon hantu pac-man
+        };
+
+        function tampilkankategori(){
+            wadahkategori.innerHTML = '';
+
+            if (daftarkategoriunik.length === 0) {
+                wadahkategori.innerHTML = '<h3 style="color: var(--putih); margin-left: 20px;">Belum ada kategori yang ditambahkan.</h3>';
+                return;
+            }
+
+            daftarkategoriunik.forEach(kategori => {
+                const kategorikapital = kategori.charAt(0).toUpperCase() + kategori.slice(1);
+                
+                // Cari ikon di kamus. Jika kategori tidak ada di kamus, gunakan fa-gamepad
+                const namaIkon = ikonKamus[kategori.toLowerCase()] || 'fa-solid fa-gamepad';
+
+                // Perhatikan penambahan class 'kartu-kategori' dan tag <i> untuk ikon
+                wadahkategori.innerHTML += `
+                    <a href="game.html?kategori=${kategori}" style="text-decoration: none;">
+                        <div class="game-card kartu-kategori">
+                            <h4 class="game-title">${kategorikapital}</h4>
+                            <i class="${namaIkon} icon-kategori"></i>
+                        </div>
+                    </a>
+                `;
+            });
+        }
+
+        tampilkankategori();
+    </script>
+
+</body>
+</html>

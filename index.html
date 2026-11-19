@@ -1,0 +1,120 @@
+<html>
+<head>
+    <title>Beranda - SAMPELGAME</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- header logo dan nama web -->
+    <header class="header-web">
+        <div class="logo-container">
+            <img src="aset-web/logo_sampelgame.png" alt="logo" class="logo-img">
+            <h1 class="nama-web"><span class="teks-biru">SAMPEL</span>GAME</h1>
+        </div>
+    </header>
+    <!-- navbar menu -->
+        <nav class="menu">
+            <a href="index.html" class="active">Beranda</a>
+            <a href="game.html" >Game</a>
+            <a href="kategori.html">Kategori</a>
+            <a href="profil.html" >Profil</a>
+        </nav>
+
+    <section>
+        <h2 class="section-title">Rekomendasi Game</h2>
+        <div class="carousel-container">
+            <!-- tombol kiri -->
+            <button class="scroll-btn btn-kiri" onclick="geserkiri()"><i class="fa-solid fa-chevron-left"></i></button>
+                <div class="scroll-samping" id="rekomendasi-container">
+
+                </div>
+            <!-- tombol kanan -->
+            <button class="scroll-btn btn-kanan" onclick="geserkanan()"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+
+    <section>
+        <h2 class="section-title">Pilihan Game</h2>
+        <div class="scroll-atasbawah" id="pilihan-container">
+
+        </div>
+    </section>
+
+<!-- script meload semua data game dari file data.js -->
+     <script src="data.js"></script>
+
+     <script>
+        // 1. tangkap elemen HTML
+        const wadahrekomendasi = document.getElementById('rekomendasi-container');
+        const wadahpilihan = document.getElementById('pilihan-container');
+
+        // 2. ambil 7 game pertama dari database untuk rekomendasi game
+        const gamerekomendasi = databasegame.slice(0, 7)
+
+        gamerekomendasi.forEach(game => {
+            // buat variabel kosong untuk ikon
+            let badgehtml = '';
+            // cek apakah di data.js status game belum rilis
+            if (game.status === "belum_rilis"){
+                // jika iya, isi variabel dengan ini
+                badgehtml = `<div class="badge-status"><i class="fa-solid fa-clock"></i> SOON</div>`;
+            }else{
+                badgehtml = `<div class="badge-status"><i class="fa-solid fa-play"></i> PLAY</div>`;
+            }
+            // masukkan ke dalam html
+            wadahrekomendasi.innerHTML += `
+                <div class="promo-card" >
+                    <a href="halaman-main.html?id=${game.id}" style="text-decoration: none;">
+                        <img src="${game. promo_gmbr}" alt="${game.judul}" class="promo-image">
+                        <h5 class="promo-title">${game.judul}</h5>
+                        ${badgehtml}
+                    </a>
+                </div>
+            `;  
+        });
+
+        databasegame.forEach(game =>{
+            let badgehtml = '';
+            if (game.status === "belum_rilis"){
+                badgehtml = `<div class="badge-status"><i class="fa-solid fa-clock"></i> SOON</div>`;
+            }else{
+                badgehtml = `<div class="badge-status"><i class="fa-solid fa-play"></i> PLAY</div>`;
+            }
+            wadahpilihan.innerHTML += `
+                <a href="halaman-main.html?id=${game.id}" style="text-decoration: none;">
+                    <div class="game-card"" >
+                            <img src="${game.gambar}" alt="${game.judul}" class="game-image">
+                            <h5 class="game-title">${game.judul}</h5>
+                            ${badgehtml}
+                    </div>
+                </a>
+            `;
+        });
+
+
+    // Fungsi untuk geser scroll bar rekomendasi game di layar laptop
+    // geser kiri
+    function geserkiri() {
+        const container = document.getElementById('rekomendasi-container');
+        container.scrollBy({left: -350, behavior: "smooth"});
+    }
+    // geser kanan
+    function geserkanan() {
+        const container = document.getElementById('rekomendasi-container');
+        container.scrollBy({left: 350, behavior: "smooth"});
+    }
+     </script>
+
+</body>
+
+</html>
